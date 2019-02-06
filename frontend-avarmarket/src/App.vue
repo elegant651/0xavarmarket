@@ -5,9 +5,9 @@
       <v-spacer></v-spacer>
 
       <div class="nav">
-        <a href="/">Home</a>
-        <a href="/wallet">Wallet</a>
-        <a href="/upload">Upload</a>
+        <router-link to="/">Home</router-link>
+        <router-link to="/wallet">Wallet</router-link>
+        <router-link to="/upload">Upload</router-link>
       </div>
     </v-toolbar>
     <v-content class="contentWrapper">
