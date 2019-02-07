@@ -3,12 +3,13 @@
   	<v-layout row wrap>
       <v-flex v-for="(auction, index) in auctions" :key="index" xs4>
       	<v-card>
-          <v-img :src="auction.image" height="200px"></v-img>
+          <!-- <v-img :src="uploadedImg(auction.image)" height="200px"></v-img> -->
+          <IPFSAvatar :hash="auction.image" height="200"></IPFSAvatar>
           
       		<div>Title: {{auction.title}}</div>
           <div>Price: {{auction.price}} Ether</div>
           <div>TokenId: {{auction.tokenId}}</div>
-          <div>Owner: {{auction.owner}}</div>
+          <div class="ellipsis">Owner: {{auction.owner}}</div>
           <div>Active: {{auction.active}}</div>
           <div>Finalized: {{auction.finalized}}</div>        
       	</v-card>
@@ -17,7 +18,13 @@
   </v-container>
 </template>
 <script>
+import IPFSAvatar from '@/components/IPFSAvatar.vue'
+
 export default {
+  components: { 
+    IPFSAvatar
+  },
+
   data() {
     return {     
       ciMyNFT: null,
@@ -47,7 +54,7 @@ export default {
               this.auctions.push({
                 title: result[0],
                 price: this.$web3.fromWei(result[1], 'ether'),
-                image: 'https://gateway.ipfs.io/ipfs/'+result[2],
+                image: result[2],
                 tokenId: result[3],
                 owner: owner,
                 active: result[6],
@@ -58,7 +65,30 @@ export default {
           })
         }
       })
-    }	
+    },
+
+    uploadedImg(dataURI){
+      // return 'https://gateway.ipfs.io/ipfs/'+this.dataURI
+
+      this.axios({
+        method: 'get',
+        baseURL: 'https://gateway.ipfs.io/ipfs',
+        url: '/'+dataURI
+      }).then((response) => {        
+        return response.data;
+      })      
+    }
   }
 }
 </script>
+<style scoped>
+.ellipsis {
+    width: 200px;
+    text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    word-wrap: normal !important;
+    display: block;
+}
+</style>

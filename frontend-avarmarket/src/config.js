@@ -2,8 +2,8 @@ const MyNFT = require('./contracts/MyNFT')
 const Auctions = require('./contracts/Auctions')
 
 export default {
-	MYNFT_CA: '0x3cd92247e5331d3b51f6cbeff4e5d3ef420f1989',
-	AUCTIONS_CA: '0x5ffc6ca35a7ee8ed33228b47b49c21310e67339c',
+	MYNFT_CA: '0x607d17f74069af1f3c48edea4e6c7b12d22cf734',
+	AUCTIONS_CA: '0x1c5e9f784a52dc9999a85b30042772544e748176',
 
 	MYNFT_ABI: MyNFT.abi,
 	AUCTIONS_ABI: Auctions.abi,

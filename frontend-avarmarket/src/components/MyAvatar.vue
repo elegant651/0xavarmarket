@@ -12,7 +12,8 @@
 
       <img id="genImg" :src="genImgData" width="300" />  
 
-      <v-btn @click="uploadImg" outline color="teal">UploadImg</v-btn>   
+      <v-btn @click="uploadImg" outline color="teal">1.Upload_To_IPFS</v-btn> 
+      <v-progress-circular indeterminate color="primary" v-if="isLoading"></v-progress-circular>  
       <img :src="uploadedImgData" width="300" />
 
       <v-text-field
@@ -21,10 +22,10 @@
         required
         ></v-text-field>
 
-      <v-btn @click="submit" outline color="teal">Submit</v-btn>      
+      <v-btn @click="submit" outline color="teal">2.Submit_To_Contract</v-btn>      
 
       <div v-show="isRegistered">
-        <v-btn @click="transferToCA" outline color="teal">TransferToCA</v-btn>              
+        <v-btn @click="transferToCA" outline color="teal">3.TransferToCA</v-btn>              
       </div>
     </v-form>       
 
@@ -46,7 +47,8 @@ export default {
       file: null,            
       tokenId: null,      
       isRegistered: false,            
-      dataURI: null      
+      dataURI: null,
+      isLoading: false      
     }
   }, 
 
@@ -92,6 +94,7 @@ export default {
     },
 
     async uploadImg() {
+      this.isLoading = true
       const formData = new FormData()
       formData.append('file', this.genImgData)
       this.axios({
@@ -101,10 +104,11 @@ export default {
         data: formData,
         headers: {'Content-Type': 'multipart/form-data'}
       }).then((response)=> {     
+        this.isLoading = false
         console.log(response)   
         this.dataURI = response.data.Hash     
 
-        this.uploadedImg(dataURI)    
+        // this.uploadedImg(dataURI)            
       })
     },
 
